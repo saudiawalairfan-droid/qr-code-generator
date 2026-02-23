@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free QR Code Generator Online - Create QR Codes in Seconds</title>
+    <meta name="description" content="Generate QR codes for free online. Convert URLs, text, phone numbers to QR codes instantly. Download as PNG. No registration needed.">
+    <meta name="keywords" content="QR code generator, create QR code, free QR code, online QR generator">
+    <meta name="author" content="QR Code Generator">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .qr-result {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .qr-result.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #qrCode {
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .btn-download {
+            background: #4CAF50;
+            margin-top: 15px;
+        }
+
+        .btn-download:hover {
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .ad-space {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            color: #999;
+            border-radius: 8px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tips {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .tips h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .tips li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Free QR Code Generator</h1>
+            <p>Create QR Codes Online in Seconds - No Registration Required</p>
+        </header>
+
+        <!-- Ad Space 1 -->
+        <div class="ad-space">
+            <div>
+                <div style="font-size: 0.9em; margin-bottom: 10px;">📢 Advertisement</div>
+                <!-- Google AdSense Code Will Go Here -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔗 Create Your QR Code</h2>
+
+            <div class="form-group">
+                <label>Enter URL or Text:</label>
+                <textarea id="qrInput" placeholder="Enter website URL (https://example.com) or any text..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>QR Code Size:</label>
+                <select id="qrSize">
+                    <option value="100">Small (100x100)</option>
+                    <option value="150">Medium (150x150)</option>
+                    <option value="200" selected>Large (200x200) - Recommended</option>
+                    <option value="300">Extra Large (300x300)</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="generateQR()">Generate QR Code 🎯</button>
+
+            <div class="qr-result" id="qrResult">
+                <h3>✨ Your QR Code is Ready:</h3>
+                <div id="qrCode"></div>
+                <button class="btn btn-download" onclick="downloadQR()">📥 Download QR Code as PNG</button>
+            </div>
+        </div>
+
+        <!-- Ad Space 2 -->
+        <div class="ad-space">
+            <div>
+                <div style="font-size: 0.9em;">📢 Advertisement</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>✨ Why Use Our QR Code Generator?</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div>Lightning Fast</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">Generate QR codes instantly</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <div>Mobile Friendly</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">Works on all devices</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🆓</div>
+                    <div>100% Free</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">No registration needed</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💾</div>
+                    <div>Download PNG</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">High quality images</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <div>Secure</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">Your data is safe</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">♾️</div>
+                    <div>Unlimited</div>
+                    <p style="font-size: 0.85em; color: #666; margin-top: 5px;">Create as many as you want</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Space 3 -->
+        <div class="ad-space">
+            <div>
+                <div style="font-size: 0.9em;">📢 Advertisement</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💡 How to Use QR Codes?</h2>
+            <div class="tips">
+                <h4>Popular Uses:</h4>
+                <ul>
+                    <li><strong>Business:</strong> Share contact information, WiFi passwords, payment links</li>
+                    <li><strong>Marketing:</strong> Direct customers to websites, social media, or promotional content</li>
+                    <li><strong>Education:</strong> Link to course materials, assignments, or educational videos</li>
+                    <li><strong>Events:</strong> Ticket distribution, event registration, event schedules</li>
+                    <li><strong>Retail:</strong> Product information, discounts, loyalty programs</li>
+                    <li><strong>Personal:</strong> Share WiFi, phone numbers, email addresses, vCards</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>❓ FAQ</h2>
+            <div style="color: #333; line-height: 1.8;">
+                <h4 style="color: #667eea; margin-top: 15px;">Q: Is it really free?</h4>
+                <p>Yes! Our QR code generator is completely free. No hidden charges or registration required.</p>
+
+                <h4 style="color: #667eea; margin-top: 15px;">Q: Can I use generated QR codes commercially?</h4>
+                <p>Yes, absolutely! You can use QR codes for any purpose - personal or commercial.</p>
+
+                <h4 style="color: #667eea; margin-top: 15px;">Q: Do QR codes expire?</h4>
+                <p>No, QR codes don't expire. They will work forever as long as the URL or content is valid.</p>
+
+                <h4 style="color: #667eea; margin-top: 15px;">Q: What can I encode in QR code?</h4>
+                <p>URLs, text, phone numbers, email addresses, contact information, WiFi credentials, and more.</p>
+            </div>
+        </div>
+
+        <!-- Ad Space 4 -->
+        <div class="ad-space">
+            <div>
+                <div style="font-size: 0.9em;">📢 Advertisement</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Free QR Code Generator. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let qrInstance = null;
+
+        function generateQR() {
+            const input = document.getElementById('qrInput').value;
+            const size = document.getElementById('qrSize').value;
+
+            if (!input.trim()) {
+                alert('Please enter a URL or text!');
+                return;
+            }
+
+            document.getElementById('qrCode').innerHTML = '';
+
+            qrInstance = new QRCode(document.getElementById('qrCode'), {
+                text: input,
+                width: parseInt(size),
+                height: parseInt(size),
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            document.getElementById('qrResult').classList.add('active');
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrCode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = 'qrcode.png';
+                link.click();
+            }
+        }
+
+        document.getElementById('qrInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') generateQR();
+        });
+
+        // Track events for analytics
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent.includes('Generate')) {
+                console.log('User generated QR code');
+            }
+        });
+    </script>
+</body>
+  </html>
